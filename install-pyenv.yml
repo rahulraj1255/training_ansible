@@ -1,0 +1,48 @@
+---
+- hosts: appserver
+  remote_user: rahul-mac
+  tasks:
+#  - name: Ensure dependencies installed
+#    become: yes
+#    apt:
+#      name:
+#        - zlib-devel 
+#        - bzip2 
+#        - bzip2-devel 
+#        - readline-devel 
+#        - sqlite
+#        - sqlite-devel 
+#        - openssl-devel 
+#        - xz 
+#        - xz-devel
+#        - libffi-devel
+#      state: latest
+  - name: Copy files
+    copy:
+      src: pyenv-installer.sh
+      #become: yes
+      dest: /home/rahul-mac/pyenv-installer.sh
+      owner: rahul-mac
+      mode: u=rwx
+
+      #  - name: Curl bash script for install
+      #    become: yes
+      #    get_url:
+      #      url: https://pyenv.run
+      #      dest: /tmp/pyenv-installer.sh
+      #      mode: 0755
+  - name: Execute script
+    become: no
+    shell: /home/rahul-mac/pyenv-installer.sh
+    #  - name: Add to bashrc
+    #    command: echo "export PATH="/home/rahul-mac/.pyenv/bin:$PATH"\n eval "$(pyenv init -)"\n eval "$(pyenv virtualenv-init -)"" >> ~/.bashrc
+  - name: Clear downloaded script
+    become: yes
+    file:
+      path: /home/rahul-mac/pyenv-installer.sh
+      state: absent
+#curl https://pyenv.run | bash
+#then 
+#export PATH="/home/rahul-mac/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)" to ~/.bashrc
