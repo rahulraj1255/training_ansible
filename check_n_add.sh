@@ -29,7 +29,9 @@ eval profile=$profile
 
 case "$shell" in
 	fish )
-		lines= 'set -x PATH \"${PYENV_ROOT}/bin\" \$PATH \nstatus --is-interactive; and . (pyenv init -|psub) \nstatus --is-interactive; and . (pyenv virtualenv-init -|psub)'
+		lines= 'set -x PATH \"${PYENV_ROOT}/bin\" \$PATH
+status --is-interactive; and . (pyenv init -|psub)
+status --is-interactive; and . (pyenv virtualenv-init -|psub)'
 		#echo "set -x PATH \"${PYENV_ROOT}/bin\" \$PATH" >> ${profile}
 		#echo 'status --is-interactive; and . (pyenv init -|psub)' >> ${profile}
 		#echo 'status --is-interactive; and . (pyenv virtualenv-init -|psub)' >> ${profile}
@@ -53,7 +55,6 @@ for line in ${lines[@]}; do
 	grep "$line" "$filename" >> /dev/null
 	if (( $? == 1 )); then
 		patternfound=0
-		break
 	fi
 done
 
