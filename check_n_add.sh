@@ -54,18 +54,6 @@ for line in ${lines[@]}; do
 	echo "In lop"
 	grep "$line" "$filename" >> /dev/null
 	if (( $? == 1 )); then
-		patternfound=0
+		echo "$line" >> "$filename"
 	fi
 done
-
-	
-#filename=$profile
-#pcregrep -M '$lines' "$filename" >> /dev/null
-if (( $patternfound == 0 )); then
-	echo "Pattern not found! Appending"
-	for line in ${lines[@]}; do
-		echo "$line" >> "$filename"
-	done
-else
-echo "Pattern found!"
-fi
