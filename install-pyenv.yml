@@ -11,11 +11,18 @@
       owner: pyapp
       mode: u=rwx
 
+  - name: Copy configuration
+    copy:
+      src: check_n_add.sh
+      dest: /home/pyapp/check_n_add.sh
+      owner: pyapp
+      mode: u=rwx
+
   - name: Execute script
     become: no
     shell: /home/pyapp/pyenv-installer.sh
 
-  - name: Check if shell config files are properly written
+  - name: Configurations
     become: no
     shell: /home/pyapp/check_n_add.sh
 
