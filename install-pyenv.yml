@@ -1,48 +1,31 @@
 ---
 - hosts: appserver
-  remote_user: pyapp
   tasks:
-#  - name: Ensure dependencies installed
-#    become: yes
-#    apt:
-#      name:
-#        - zlib-devel 
-#        - bzip2 
-#        - bzip2-devel 
-#        - readline-devel 
-#        - sqlite
-#        - sqlite-devel 
-#        - openssl-devel 
-#        - xz 
-#        - xz-devel
-#        - libffi-devel
-#      state: latest
-  - name: Copy files
+  - name: Copy Installer script
     copy:
-      src: pyenv-installer.sh
-      #become: yes
-      dest: /home/pyapp/pyenv-installer.sh
-      owner: pyapp
-      mode: u=rwx
+      src: .pyenv_installer/bundle/pyenv_installer/bin/pyenv-installer
+      dest: /home/sumant/pyenv-installer.sh
+      owner: sumant
+      mode: '0755'
 
-      #  - name: Curl bash script for install
-      #    become: yes
-      #    get_url:
-      #      url: https://pyenv.run
-      #      dest: /tmp/pyenv-installer.sh
-      #      mode: 0755
-  - name: Execute script
-    become: no
-    shell: /home/pyapp/pyenv-installer.sh
-    #  - name: Add to bashrc
-    #    command: echo "export PATH="/home/pyapp/.pyenv/bin:$PATH"\n eval "$(pyenv init -)"\n eval "$(pyenv virtualenv-init -)"" >> ~/.bashrc
-  - name: Clear downloaded script
-    become: yes
+  - name: Copy configuration editor
+    copy:
+      src: addTo_Path.sh
+      dest: /home/sumant/addTo_Path.sh
+      mode: '0755'
+
+  - name: Install files for pyenv
+    shell: /home/sumant/pyenv-installer.sh
+
+  - name: Add pyenv to Path
+    shell: /home/sumant/addTo_Path.sh
+
+  - name: Remove installer script
     file:
-      path: /home/pyapp/pyenv-installer.sh
+      path: /home/sumant/pyenv-installer.sh
       state: absent
-#curl https://pyenv.run | bash
-#then 
-#export PATH="/home/pyapp/.pyenv/bin:$PATH"
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)" to ~/.bashrc
+
+  - name: Remove config script
+    file:
+      path: /home/sumant/addTo_Path.sh
+      state: absent
