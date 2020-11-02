@@ -1,4 +1,2 @@
-*.swo
-*.swp
-
-.vagrant/*
+.*
+!.gitignore
