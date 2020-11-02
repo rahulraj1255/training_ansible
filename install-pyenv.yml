@@ -17,10 +17,9 @@
 #        - xz-devel
 #        - libffi-devel
 #      state: latest
-  - name: Copy files
+  - name: Copy script from subtree 
     copy:
-      src: pyenv-installer.sh
-      #become: yes
+      src: bin/pyenv-installer/bin/pyenv-installer
       dest: /home/pyapp/pyenv-installer.sh
       owner: pyapp
       mode: u=rwx
@@ -31,6 +30,7 @@
       #      url: https://pyenv.run
       #      dest: /tmp/pyenv-installer.sh
       #      mode: 0755
+  
   - name: Execute script
     become: no
     shell: /home/pyapp/pyenv-installer.sh
@@ -41,8 +41,3 @@
     file:
       path: /home/pyapp/pyenv-installer.sh
       state: absent
-#curl https://pyenv.run | bash
-#then 
-#export PATH="/home/pyapp/.pyenv/bin:$PATH"
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)" to ~/.bashrc
